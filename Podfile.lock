@@ -1,0 +1,64 @@
+PODS:
+  - CometChatPro (1.3.1):
+    - JitsiMeetSDK
+  - Firebase/CoreOnly (5.19.0):
+    - FirebaseCore (= 5.4.0)
+  - Firebase/Messaging (5.19.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (= 3.4.0)
+  - FirebaseAnalyticsInterop (1.2.0)
+  - FirebaseCore (5.4.0):
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseInstanceID (3.8.0):
+    - FirebaseCore (~> 5.2)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/UserDefaults (~> 5.2)
+  - FirebaseMessaging (3.4.0):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.2)
+    - FirebaseInstanceID (~> 3.6)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/Reachability (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
+    - Protobuf (~> 3.1)
+  - GoogleUtilities/Environment (5.5.0)
+  - GoogleUtilities/Logger (5.5.0):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/Reachability (5.5.0):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (5.5.0):
+    - GoogleUtilities/Logger
+  - JitsiMeetSDK (1.21.2)
+  - Protobuf (3.7.0)
+
+DEPENDENCIES:
+  - CometChatPro
+  - Firebase/Messaging
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CometChatPro
+    - Firebase
+    - FirebaseAnalyticsInterop
+    - FirebaseCore
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - GoogleUtilities
+    - JitsiMeetSDK
+    - Protobuf
+
+SPEC CHECKSUMS:
+  CometChatPro: 5215011acf7a733f9d46441c8844feb85ee0b222
+  Firebase: c60d49e9c2630875a96207d15e2affb8364996d1
+  FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
+  FirebaseCore: 22a79a961c3951ef2f77b67bfbc99e454247b319
+  FirebaseInstanceID: cf488df2f4b79782f0e430b04a0e17c0aa7979b2
+  FirebaseMessaging: 2d53d08d752fbe63ce0820428d70be5ab87c11fb
+  GoogleUtilities: 6481e6318c5fcabaaa8513ef8120f329055d7c10
+  JitsiMeetSDK: 0f8e9dec4012f38d14015363a3ec17260cf273f6
+  Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
+
+PODFILE CHECKSUM: 161e818f48544c66cdfb694e32a3e4b118cbf3ac
+
+COCOAPODS: 1.6.0.beta.1
