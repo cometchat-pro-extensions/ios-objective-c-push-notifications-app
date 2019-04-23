@@ -19,8 +19,8 @@
 
 @implementation SendPushViewController
 {
-    NSString *subscriptionTopic;
-    NSString *subscriptionToipc1;
+    NSString *subscriptionTopicForLoggedInUser;
+    NSString *subscriptionToipcForGroup;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,20 +33,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)name:UIKeyboardWillHideNotification object:nil];
     [self setupsubViews];
     [self ViewWillSetUpNavigationBar];
-    
-    subscriptionTopic = [NSString stringWithFormat:@"%@_user_%@_ios",@APP_ID,@UID];
-    subscriptionToipc1 = [NSString stringWithFormat:@"%@_group_%@_ios",@APP_ID,@"supergroup"];
 
-//    [[FIRMessaging messaging] subscribeToTopic:subscriptionTopic];
+    NSString *uid = [[NSUserDefaults standardUserDefaults]objectForKey:@"uid"];
     
-    [[FIRMessaging messaging] subscribeToTopic:subscriptionTopic completion:^(NSError * _Nullable error) {
+    subscriptionTopicForLoggedInUser = [NSString stringWithFormat:@"%@_user_%@_ios",@APP_ID,uid];
+    subscriptionToipcForGroup = [NSString stringWithFormat:@"%@_group_%@_ios",@APP_ID,@"supergroup"];
+    [[FIRMessaging messaging] subscribeToTopic:subscriptionTopicForLoggedInUser completion:^(NSError * _Nullable error) {
         
         NSLog(@"PRINT ERROR IF ANY %@",[error localizedDescription]);
         
     }];
     
-    [[FIRMessaging messaging] subscribeToTopic:subscriptionToipc1];
-//    [self APIRequest];
+    [[FIRMessaging messaging] subscribeToTopic:subscriptionToipcForGroup];
 }
 - (void) keyboardDidShow:(NSNotification *)notification
 {
@@ -147,7 +145,7 @@
     CGFloat _Width = width - paddingX*4;
     CGFloat verticalSpacing;
     if ([[UIApplication sharedApplication]statusBarOrientation] == UIInterfaceOrientationPortrait) {
-        verticalSpacing = height * 40/100;
+        verticalSpacing = height * 25/100;
     }else{
         verticalSpacing = height * 25/100;
     }
@@ -156,7 +154,7 @@
     NSDictionary *metrics = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSString stringWithFormat:@"%f",_Width],@"_Width",[NSString stringWithFormat:@"%f",verticalSpacing],@"verticalSpacing",nil];
     
-    NSArray *verticalConstraints =[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(verticalSpacing)-[_receiverTextField]-(16)-[_textMessageView(40)]-(16)-[_segmentedControl(30)]-(16)-[_sendButton(40)]"  options:0 metrics:metrics views:views];
+    NSArray *verticalConstraints =[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(verticalSpacing)-[_receiverTextField]-(16)-[_textMessageView(60)]-(16)-[_segmentedControl(40)]-(16)-[_sendButton(40)]"  options:0 metrics:metrics views:views];
     
     
     NSArray *horizontalConstraints1 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_receiverTextField(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
@@ -183,7 +181,7 @@
         _receiverTextField = [UITextField new];
         _receiverTextField.delegate = self;
         _receiverTextField.layer.masksToBounds = YES;
-        _receiverTextField.placeholder = @" RECEIVERID HERE";
+        _receiverTextField.placeholder = @" Receiver id Here";
         _receiverTextField.textAlignment = NSTextAlignmentCenter;
         [_receiverTextField becomeFirstResponder];
         [_receiverTextField setBackground:[UIImage imageNamed:@"underline"]];
@@ -321,47 +319,19 @@
 }
 -(void)logout
 {
-    [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionTopic];
-    [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionToipc1];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
--(void)APIRequest
-{
     
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://ext-push-notifications.cometchat-dev.com/fcmtokens/%@/topics/%@",[[FIRMessaging messaging] FCMToken],subscriptionTopic]];
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    request.HTTPMethod = @"POST";
-    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    
-    NSDictionary *dictionary = @{@"appId": @"12573e6ce3866"};
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                   options:kNilOptions error:&error];
-    
-    request.HTTPBody = data;
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [CometChat logoutOnSuccess:^(NSString * _Nonnull logoutSuccess) {
         
-        if (!error) {
-            NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-            if (httpResp.statusCode == 200) {
-                NSDictionary* json = [NSJSONSerialization
-                                      JSONObjectWithData:data
-                                      options:kNilOptions
-                                      error:&error];
-                NSLog(@"%@", json);
-                
-            }
-        }
+        [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionTopicForLoggedInUser];
+        [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionToipcForGroup];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    } onError:^(CometChatException * _Nonnull error) {
+        
+        NSLog(@"error %@",[error errorDescription]);
         
     }];
-    [task resume];
+    
+    
 }
-
 @end

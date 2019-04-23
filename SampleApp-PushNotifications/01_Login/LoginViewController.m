@@ -32,7 +32,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:)name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)name:UIKeyboardWillHideNotification object:nil];
     [self setupsubViews];
-
+    
     demousers = [[DemoUsersViewController alloc] init];
     demousers.delegate = self;
 }
@@ -300,12 +300,16 @@
 }
 -(void)login
 {
-    [CometChat loginWithUID:@UID apiKey:@API_KEY onSuccess:^(User * _Nonnull logged_in_user) {
+    [CometChat loginWithUID:[_userNameField text] apiKey:@API_KEY onSuccess:^(User * _Nonnull logged_in_user) {
         
         NSLog(@"user %@",[logged_in_user stringValue]);
         SendPushViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SendPushViewController"];
         UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:controller];
-        [self presentViewController:navController animated:YES completion:nil];
+        [self presentViewController:navController animated:YES completion:^{
+            
+            [[NSUserDefaults standardUserDefaults]setObject:[logged_in_user uid] forKey:@"uid"];
+            
+        }];
         
         
     } onError:^(CometChatException * _Nonnull error) {

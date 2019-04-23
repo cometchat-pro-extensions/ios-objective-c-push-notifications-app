@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SampleApp-PushNotifications/03_SendPush/SendPushViewController.m"
-            timestampString = "577290762.027292"
+            timestampString = "577715130.250465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
-            landmarkName = "-APIRequest"
+            startingLineNumber = "325"
+            endingLineNumber = "325"
+            landmarkName = "-logout"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SampleApp-PushNotifications/03_SendPush/SendPushViewController.m"
-            timestampString = "577290762.027451"
+            timestampString = "577715130.251058"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "351"
-            endingLineNumber = "351"
-            landmarkName = "-APIRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SampleApp-PushNotifications/03_SendPush/SendPushViewController.m"
-            timestampString = "577290762.027573"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
-            landmarkName = "-APIRequest"
+            startingLineNumber = "331"
+            endingLineNumber = "331"
+            landmarkName = "-logout"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
