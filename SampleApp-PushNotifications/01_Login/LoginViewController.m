@@ -300,17 +300,21 @@
 }
 -(void)login
 {
+    /**
+     * log in into cometchat
+     **/
     [CometChat loginWithUID:[_userNameField text] apiKey:@API_KEY onSuccess:^(User * _Nonnull logged_in_user) {
         
         NSLog(@"user %@",[logged_in_user stringValue]);
-        SendPushViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SendPushViewController"];
-        UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:controller];
-        [self presentViewController:navController animated:YES completion:^{
-            
-            [[NSUserDefaults standardUserDefaults]setObject:[logged_in_user uid] forKey:@"uid"];
-            
-        }];
+        [[NSUserDefaults standardUserDefaults]setObject:[logged_in_user uid] forKey:@"uid"];
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            SendPushViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"SendPushViewController"];
+            UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:controller];
+            [self presentViewController:navController animated:YES completion:nil];
+            
+        });
         
     } onError:^(CometChatException * _Nonnull error) {
         

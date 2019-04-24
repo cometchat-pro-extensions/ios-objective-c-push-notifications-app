@@ -12,9 +12,9 @@
 @property (strong ,nonatomic) UIView                 *holderView;
 @property (strong ,nonatomic) UITextField            *receiverTextField;
 @property (strong ,nonatomic) UITextView             *textMessageView;
-@property (strong ,nonatomic) UISegmentedControl   *segmentedControl;
+@property (strong ,nonatomic) UISegmentedControl     *segmentedControl;
 @property (strong ,nonatomic) UIButton               *sendButton;
-@property (nonatomic, strong) UILabel               *placeholderLabel;
+@property (nonatomic, strong) UILabel                *placeholderLabel;
 @end
 
 @implementation SendPushViewController
@@ -36,11 +36,16 @@
 
     NSString *uid = [[NSUserDefaults standardUserDefaults]objectForKey:@"uid"];
     
+    /**
+     * subscribe to FCM TOPICS
+     * for logged in user   : APPID_user_"logged_in_uid"_ios
+     * for groups           : APPID_group_"some_group_guid"_ios
+     **/
     subscriptionTopicForLoggedInUser = [NSString stringWithFormat:@"%@_user_%@_ios",@APP_ID,uid];
     subscriptionToipcForGroup = [NSString stringWithFormat:@"%@_group_%@_ios",@APP_ID,@"supergroup"];
     [[FIRMessaging messaging] subscribeToTopic:subscriptionTopicForLoggedInUser completion:^(NSError * _Nullable error) {
         
-        NSLog(@"PRINT ERROR IF ANY %@",[error localizedDescription]);
+        NSLog(@"E R R O R %@",[error localizedDescription]);
         
     }];
     
@@ -271,21 +276,23 @@
 }
 
 -(void)viewWillLayoutSubviews{
+    
     [super viewWillLayoutSubviews];
     [UIView animateWithDuration:0.25 animations:^{
         [self.contentView removeConstraints:self.contentView.constraints];
         [self.holderView removeConstraints:self.holderView.constraints];
         [self addConstraints];
     }];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     [_textMessageView addSubview:self.placeholderLabel];
 }
 -(void)sendMessage:(TextMessage *)textMessasge
 {
+    /**
+     * send push notification message to receiver
+     **/
     [CometChat sendTextMessageWithMessage:textMessasge onSuccess:^(TextMessage * _Nonnull sent_message) {
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -301,7 +308,6 @@
 
     }];
     
-//    [self APIRequest];
 }
 -(void)showAlertWithTitle:(NSString*)title andMessage:(NSString *)message
 {
@@ -319,7 +325,9 @@
 }
 -(void)logout
 {
-    
+    /**
+     * log out from cometchat and unsubscribe from push notifications
+     **/
     [CometChat logoutOnSuccess:^(NSString * _Nonnull logoutSuccess) {
         
         [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionTopicForLoggedInUser];

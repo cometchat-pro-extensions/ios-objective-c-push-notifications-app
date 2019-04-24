@@ -12,8 +12,8 @@
 #import <CometChatPro/CometChatPro-Swift.h>
 
 
-#define API_KEY             "3de4f1672b44a43f1593ea03a27e3b3202a3869b"
-#define APP_ID              "6e13b23d7a3"
+#define API_KEY             "YOUR_API_KEY"
+#define APP_ID              "YOUR_APP_ID"
 
 #define IS_IPAD   ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define IS_IPHONE ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
