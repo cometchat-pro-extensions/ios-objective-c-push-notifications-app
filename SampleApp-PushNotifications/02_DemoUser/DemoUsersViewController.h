@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol demoUserDelegate <NSObject>
+@protocol DemoUserDelegate <NSObject>
 
 @required -(void)selectedUser:(DemoUser *)selectedUSer;
 
@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DemoUsersViewController : UIViewController
 
-@property (nonatomic, weak) id<demoUserDelegate> delegate;
+@property (nonatomic, weak) id<DemoUserDelegate> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

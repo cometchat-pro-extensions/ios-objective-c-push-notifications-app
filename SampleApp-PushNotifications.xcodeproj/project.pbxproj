@@ -15,11 +15,36 @@
 		E1A494902254AAD600E84809 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A4948F2254AAD600E84809 /* main.m */; };
 		E1A494992254AEB700E84809 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E1A494982254AEB700E84809 /* Podfile */; };
 		E1A4949B2254B48D00E84809 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1A4949A2254B48D00E84809 /* GoogleService-Info.plist */; };
+		E1C5ABC1228D8809005122E0 /* WebRTC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABBE228D87F8005122E0 /* WebRTC.framework */; };
+		E1C5ABC2228D8809005122E0 /* CometChatPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABBF228D87FF005122E0 /* CometChatPro.framework */; };
+		E1C5ABC3228D8809005122E0 /* JitsiMeet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABC0228D8809005122E0 /* JitsiMeet.framework */; };
+		E1C5ABC4228D8859005122E0 /* CometChatPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABBF228D87FF005122E0 /* CometChatPro.framework */; };
+		E1C5ABC5228D8859005122E0 /* CometChatPro.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABBF228D87FF005122E0 /* CometChatPro.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1C5ABC6228D8859005122E0 /* JitsiMeet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABC0228D8809005122E0 /* JitsiMeet.framework */; };
+		E1C5ABC7228D8859005122E0 /* JitsiMeet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABC0228D8809005122E0 /* JitsiMeet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E1C5ABC8228D8859005122E0 /* WebRTC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABBE228D87F8005122E0 /* WebRTC.framework */; };
+		E1C5ABC9228D8859005122E0 /* WebRTC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E1C5ABBE228D87F8005122E0 /* WebRTC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1FA458822560C3500A72334 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA458722560C3500A72334 /* LoginViewController.m */; };
 		E1FA458D2256137800A72334 /* DemoUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA458C2256137800A72334 /* DemoUser.m */; };
 		E1FA4590225614E700A72334 /* DemoUsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA458F225614E700A72334 /* DemoUsersViewController.m */; };
 		E1FA45932256237C00A72334 /* SendPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FA45922256237C00A72334 /* SendPushViewController.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E1C5ABCA228D885A005122E0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E1C5ABC5228D8859005122E0 /* CometChatPro.framework in Embed Frameworks */,
+				E1C5ABC7228D8859005122E0 /* JitsiMeet.framework in Embed Frameworks */,
+				E1C5ABC9228D8859005122E0 /* WebRTC.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7D681472ACC1C07C51DCE8DC /* Pods-SampleApp-PushNotifications.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SampleApp-PushNotifications.debug.xcconfig"; path = "Target Support Files/Pods-SampleApp-PushNotifications/Pods-SampleApp-PushNotifications.debug.xcconfig"; sourceTree = "<group>"; };
@@ -35,6 +60,9 @@
 		E1A4948F2254AAD600E84809 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E1A494982254AEB700E84809 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E1A4949A2254B48D00E84809 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E1C5ABBE228D87F8005122E0 /* WebRTC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebRTC.framework; sourceTree = "<group>"; };
+		E1C5ABBF228D87FF005122E0 /* CometChatPro.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CometChatPro.framework; sourceTree = "<group>"; };
+		E1C5ABC0228D8809005122E0 /* JitsiMeet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JitsiMeet.framework; sourceTree = "<group>"; };
 		E1FA45752255D0C400A72334 /* AppConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
 		E1FA45762255E77200A72334 /* SampleApp-PushNotifications.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SampleApp-PushNotifications.entitlements"; sourceTree = "<group>"; };
 		E1FA458622560C3500A72334 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -53,6 +81,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AC65081025E79695538C39E /* libPods-SampleApp-PushNotifications.a in Frameworks */,
+				E1C5ABC4228D8859005122E0 /* CometChatPro.framework in Frameworks */,
+				E1C5ABC3228D8809005122E0 /* JitsiMeet.framework in Frameworks */,
+				E1C5ABC8228D8859005122E0 /* WebRTC.framework in Frameworks */,
+				E1C5ABC6228D8859005122E0 /* JitsiMeet.framework in Frameworks */,
+				E1C5ABC1228D8809005122E0 /* WebRTC.framework in Frameworks */,
+				E1C5ABC2228D8809005122E0 /* CometChatPro.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +113,7 @@
 		E1A494742254AAD200E84809 = {
 			isa = PBXGroup;
 			children = (
+				E1C5ABBD228D87D4005122E0 /* Vendors */,
 				E1A494982254AEB700E84809 /* Podfile */,
 				E1A4947F2254AAD200E84809 /* SampleApp-PushNotifications */,
 				E1A4947E2254AAD200E84809 /* Products */,
@@ -113,6 +148,16 @@
 				E1A4949A2254B48D00E84809 /* GoogleService-Info.plist */,
 			);
 			path = "SampleApp-PushNotifications";
+			sourceTree = "<group>";
+		};
+		E1C5ABBD228D87D4005122E0 /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				E1C5ABBF228D87FF005122E0 /* CometChatPro.framework */,
+				E1C5ABC0228D8809005122E0 /* JitsiMeet.framework */,
+				E1C5ABBE228D87F8005122E0 /* WebRTC.framework */,
+			);
+			path = Vendors;
 			sourceTree = "<group>";
 		};
 		E1FA4589225612C900A72334 /* 01_Login */ = {
@@ -155,7 +200,7 @@
 				E1A494792254AAD200E84809 /* Sources */,
 				E1A4947A2254AAD200E84809 /* Frameworks */,
 				E1A4947B2254AAD200E84809 /* Resources */,
-				C296ABD43421C406459F6078 /* [CP] Embed Pods Frameworks */,
+				E1C5ABCA228D885A005122E0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -222,32 +267,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C296ABD43421C406459F6078 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SampleApp-PushNotifications/Pods-SampleApp-PushNotifications-frameworks.sh",
-				"${PODS_ROOT}/CometChatPro/CometChatPro.framework",
-				"${PODS_ROOT}/JitsiMeetSDK/jitsi-meet-ios-sdk-releases-1.21.2/Frameworks/JitsiMeet.framework",
-				"${PODS_ROOT}/JitsiMeetSDK/jitsi-meet-ios-sdk-releases-1.21.2/Frameworks/WebRTC.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CometChatPro.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JitsiMeet.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SampleApp-PushNotifications/Pods-SampleApp-PushNotifications-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C97E935B3E7755E812ECD698 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,6 +449,24 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K456T8RD7Z;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendors",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalyticsInterop\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					$SDKROOT/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "SampleApp-PushNotifications/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -452,6 +489,24 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K456T8RD7Z;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendors",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalyticsInterop\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					$SDKROOT/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "SampleApp-PushNotifications/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

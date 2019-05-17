@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 
-@interface LoginViewController ()<UITextFieldDelegate,demoUserDelegate>
+@interface LoginViewController ()<UITextFieldDelegate,DemoUserDelegate>
 @property(strong ,nonatomic) UIView  *holderView;
 @property(strong ,nonatomic) UITextField *userNameField;
 @property(strong ,nonatomic) UIButton *loginButton;
@@ -21,29 +21,51 @@
 {
     DemoUsersViewController *demousers;
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    /**
+     * tap gesture recognizer
+     */
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
     
     [self.contentView addGestureRecognizer:tap];
+    /**
+     * keyboard notifications
+     */
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:)name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)name:UIKeyboardWillHideNotification object:nil];
+    
+    /**
+     * add subviews to UIView
+     */
     [self setupsubViews];
     
+    /**
+     * demo users
+     */
     demousers = [[DemoUsersViewController alloc] init];
     demousers.delegate = self;
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 -(void)setupsubViews{
     
+    /**
+     * add holder view to content view
+     */
     [self.contentView addSubview:self.holderView];
     [_holderView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [_holderView setBackgroundColor:[UIColor whiteColor]];
     
+    /**
+     * add logo `UIImages` , username `UITextField` ,Login `UIButton` , try demo user `UILabel`
+     */
     [_holderView addSubview:self.logoImage];
     [_holderView addSubview:self.userNameField];
     [_holderView addSubview:self.loginButton];
@@ -56,6 +78,10 @@
     
     [self addConstraints];
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#pragma mark  - NSLayoutConstraint
+
 -(void)addConstraints
 {
     
@@ -147,6 +173,10 @@
     }
     
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#pragma mark  - GETTERS SETTERS
+
 -(UIImageView *)logoImage{
     
     if (!_logoImage) {
@@ -212,9 +242,7 @@
 -(CALayer *)border{
     
     if (!_border) {
-        
         _border = [CALayer new];
-        
         _border.cornerRadius = 2.0f;
         _border.borderWidth = 1.0f;
         _border.borderColor = [UIColor clearColor].CGColor;
@@ -225,12 +253,13 @@
         _border.shadowOpacity = 1.0f;
         _border.masksToBounds = NO;
         _border.shadowPath = [UIBezierPath bezierPathWithRoundedRect:_holderView.bounds cornerRadius:_border.cornerRadius].CGPath;
-        
     }
     return _border;
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 #pragma mark  - Keyboard Delegates
+
 -(void)dismissKeyboard
 {
     [self.view endEditing:YES];
@@ -257,6 +286,11 @@
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
+
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#pragma mark  - UITextFieldDelegate
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
     [self dismissKeyboard];
@@ -267,6 +301,8 @@
     
     return YES;
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 -(void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     [UIView animateWithDuration:0.25 animations:^{
@@ -282,6 +318,9 @@
     [_holderView.layer addSublayer:_border];
     NSLog(@"%s", __PRETTY_FUNCTION__);
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#pragma mark  - PRESENT DEMO USERS
 
 -(void)presentDemoUsers{
     
@@ -298,14 +337,18 @@
     demousers.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     [DemoUser Present:demousers on:self];
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+#pragma mark  - LOGIN
+
 -(void)login
 {
     /**
-     * log in into cometchat
-     **/
+     * login into CometChatPro
+     */
     [CometChat loginWithUID:[_userNameField text] apiKey:@API_KEY onSuccess:^(User * _Nonnull logged_in_user) {
         
-        NSLog(@"user %@",[logged_in_user stringValue]);
+        NSLog(@" logged_in_user %@",[logged_in_user stringValue]);
         [[NSUserDefaults standardUserDefaults]setObject:[logged_in_user uid] forKey:@"uid"];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -318,7 +361,7 @@
         
     } onError:^(CometChatException * _Nonnull error) {
         
-        NSLog(@"E R R O R %@",[error errorDescription]);
+        NSLog(@"E R R O R IN L O G I N %@",[error errorDescription]);
         
     }];
 }
@@ -326,6 +369,8 @@
     
     [self login];
 }
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 - (void)selectedUser:(nonnull DemoUser *)selectedUSer {
     
     [_userNameField setText:[selectedUSer uid]];
@@ -335,5 +380,6 @@
 {
     NSLog(@"dealloc %@", self);
 }
-
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 @end
+/* -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

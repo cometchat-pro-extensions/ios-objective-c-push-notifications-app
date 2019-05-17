@@ -13,25 +13,24 @@
 @property (strong ,nonatomic) UITextField            *receiverTextField;
 @property (strong ,nonatomic) UITextView             *textMessageView;
 @property (strong ,nonatomic) UISegmentedControl     *segmentedControl;
-@property (strong ,nonatomic) UIButton               *sendButton;
+@property (strong ,nonatomic) UIButton               *sendtextMessageButton;
+@property (strong ,nonatomic) UIButton               *sendcustomMessageButton;
 @property (nonatomic, strong) UILabel                *placeholderLabel;
 @end
 
 @implementation SendPushViewController
 {
-    NSString *subscriptionTopicForLoggedInUser;
-    NSString *subscriptionToipcForGroup;
+    NSString *subscriptionTopicForLoggedInUser , *subscriptionToipcForGroup;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
-    
     [self.contentView addGestureRecognizer:tap];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:)name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)name:UIKeyboardWillHideNotification object:nil];
-    [self setupsubViews];
+    [self addKeyboardObserver];
+    
+    [self viewWillSetUpSubViews];
     [self ViewWillSetUpNavigationBar];
 
     NSString *uid = [[NSUserDefaults standardUserDefaults]objectForKey:@"uid"];
@@ -40,16 +39,23 @@
      * subscribe to FCM TOPICS
      * for logged in user   : APPID_user_"logged_in_uid"_ios
      * for groups           : APPID_group_"some_group_guid"_ios
-     **/
-    subscriptionTopicForLoggedInUser = [NSString stringWithFormat:@"%@_user_%@_ios",@APP_ID,uid];
-    subscriptionToipcForGroup = [NSString stringWithFormat:@"%@_group_%@_ios",@APP_ID,@"supergroup"];
-    [[FIRMessaging messaging] subscribeToTopic:subscriptionTopicForLoggedInUser completion:^(NSError * _Nullable error) {
-        
-        NSLog(@"E R R O R %@",[error localizedDescription]);
-        
-    }];
+     */
+    subscriptionTopicForLoggedInUser    = [NSString stringWithFormat:@"%@_user_%@_ios",@APP_ID,uid];
+    subscriptionToipcForGroup           = [NSString stringWithFormat:@"%@_group_%@_ios",@APP_ID,@"supergroup"];
     
+    /**
+     * subscribe to user topics
+     */
+    [[FIRMessaging messaging] subscribeToTopic:subscriptionTopicForLoggedInUser completion:nil];
+    /**
+     * subscribe to groups topics
+     */
     [[FIRMessaging messaging] subscribeToTopic:subscriptionToipcForGroup];
+}
+-(void)addKeyboardObserver
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:)name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:)name:UIKeyboardWillHideNotification object:nil];
 }
 - (void) keyboardDidShow:(NSNotification *)notification
 {
@@ -87,7 +93,6 @@
     if (![textView.text isEqualToString:@""]) {
         _placeholderLabel.hidden = YES;
     }
-    
     return YES;
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
@@ -98,7 +103,6 @@
 }
 -(void)textViewDidChange:(UITextView *)textView{
     
-    
     if (![textView.text isEqualToString:@""]) {
         _placeholderLabel.hidden = YES;
     }
@@ -106,7 +110,7 @@
         _placeholderLabel.hidden = NO;
     }
 }
--(void)setupsubViews{
+-(void)viewWillSetUpSubViews{
     
     [self.contentView addSubview:self.holderView];
     [_holderView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -116,12 +120,14 @@
     
     [_holderView addSubview:self.receiverTextField];
     [_holderView addSubview:self.textMessageView];
-    [_holderView addSubview:self.sendButton];
+    [_holderView addSubview:self.sendtextMessageButton];
+    [_holderView addSubview:self.sendcustomMessageButton];
     [_holderView addSubview:self.segmentedControl];
     
     [_receiverTextField setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_textMessageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [_sendButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_sendtextMessageButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_sendcustomMessageButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_segmentedControl setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [_textMessageView addSubview:self.placeholderLabel];
@@ -144,7 +150,7 @@
     [self.contentView addConstraints:@[centerX, centerY]];
     [self.contentView addConstraints:@[heightForView, widthForView]];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(_receiverTextField,_textMessageView,_sendButton,_segmentedControl,_placeholderLabel);
+    NSDictionary *views = NSDictionaryOfVariableBindings(_receiverTextField,_textMessageView,_sendtextMessageButton,_sendcustomMessageButton,_segmentedControl,_placeholderLabel);
     
     
     CGFloat _Width = width - paddingX*4;
@@ -159,18 +165,20 @@
     NSDictionary *metrics = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSString stringWithFormat:@"%f",_Width],@"_Width",[NSString stringWithFormat:@"%f",verticalSpacing],@"verticalSpacing",nil];
     
-    NSArray *verticalConstraints =[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(verticalSpacing)-[_receiverTextField]-(16)-[_textMessageView(60)]-(16)-[_segmentedControl(40)]-(16)-[_sendButton(40)]"  options:0 metrics:metrics views:views];
+    NSArray *verticalConstraints =[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(verticalSpacing)-[_receiverTextField]-(16)-[_textMessageView(60)]-(16)-[_segmentedControl(40)]-(16)-[_sendtextMessageButton(40)]-(16)-[_sendcustomMessageButton(40)]"  options:0 metrics:metrics views:views];
     
     
     NSArray *horizontalConstraints1 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_receiverTextField(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
     NSArray *horizontalConstraints2 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_textMessageView(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
-    NSArray *horizontalConstraints3 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_sendButton(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
-    NSArray *horizontalConstraints4 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_segmentedControl(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
+    NSArray *horizontalConstraints3 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_sendtextMessageButton(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
+    NSArray *horizontalConstraints4 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_sendcustomMessageButton(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
+    NSArray *horizontalConstraints5 =[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(16)-[_segmentedControl(_Width)]-(16)-|"  options:0 metrics:metrics views:views];
     
     [_holderView addConstraints:horizontalConstraints1];
     [_holderView addConstraints:horizontalConstraints2];
     [_holderView addConstraints:horizontalConstraints3];
     [_holderView addConstraints:horizontalConstraints4];
+    [_holderView addConstraints:horizontalConstraints5];
     [_holderView addConstraints:verticalConstraints];
     
     NSArray *v1 =[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_placeholderLabel]-|"  options:0 metrics:metrics views:views];
@@ -196,7 +204,6 @@
 -(UITextView *)textMessageView{
     
     if (!_textMessageView) {
-        
         _textMessageView = [UITextView new];
         _textMessageView.delegate = self;
         _textMessageView.returnKeyType = UIReturnKeySend;
@@ -210,25 +217,38 @@
 -(UISegmentedControl *)segmentedControl{
     
     if (!_segmentedControl) {
-        
         _segmentedControl = [[UISegmentedControl alloc]initWithItems:@[@"To User",@"To Group"]];
         [_segmentedControl setSelectedSegmentIndex:0];
-        
     }
     return _segmentedControl;
 }
--(UIButton *)sendButton{
+-(UIButton *)sendtextMessageButton
+{
     
-    if (!_sendButton) {
-        _sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_sendButton setTitle:@"SEND" forState:UIControlStateNormal];
-        [_sendButton.layer setCornerRadius:10.0f];
-        [_sendButton setBackgroundColor:[UIColor colorWithRed:0 green:(122.0f/255.0f) blue:1.0f alpha:1.0f]];
-        [_sendButton setTintColor:[UIColor whiteColor]];
-        [[_sendButton titleLabel] setFont:[UIFont systemFontOfSize:17.0f weight:(UIFontWeightSemibold)]];
-        [_sendButton addTarget:self action:@selector(sendButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+    if (!_sendtextMessageButton) {
+        _sendtextMessageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_sendtextMessageButton setTitle:@"SEND" forState:UIControlStateNormal];
+        [_sendtextMessageButton.layer setCornerRadius:10.0f];
+        [_sendtextMessageButton setBackgroundColor:[UIColor colorWithRed:0 green:(122.0f/255.0f) blue:1.0f alpha:1.0f]];
+        [_sendtextMessageButton setTintColor:[UIColor whiteColor]];
+        [[_sendtextMessageButton titleLabel] setFont:[UIFont systemFontOfSize:17.0f weight:(UIFontWeightSemibold)]];
+        [_sendtextMessageButton addTarget:self action:@selector(sendButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _sendButton;
+    return _sendtextMessageButton;
+}
+-(UIButton *)sendcustomMessageButton
+{
+    
+    if (!_sendcustomMessageButton) {
+        _sendcustomMessageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_sendcustomMessageButton setTitle:@"SEND CUSTOM MESSAGE" forState:UIControlStateNormal];
+        [_sendcustomMessageButton.layer setCornerRadius:10.0f];
+        [_sendcustomMessageButton setBackgroundColor:[UIColor colorWithRed:0 green:(122.0f/255.0f) blue:1.0f alpha:1.0f]];
+        [_sendcustomMessageButton setTintColor:[UIColor whiteColor]];
+        [[_sendcustomMessageButton titleLabel] setFont:[UIFont systemFontOfSize:17.0f weight:(UIFontWeightSemibold)]];
+        [_sendcustomMessageButton addTarget:self action:@selector(sendCustomMessge:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _sendcustomMessageButton;
 }
 -(UIView *)holderView{
     
@@ -246,7 +266,6 @@
         _placeholderLabel.textColor = [UIColor lightGrayColor];
         _placeholderLabel.text = @"Write a messsage";
     }
-    
     return _placeholderLabel;
 }
 - (void)sendButtonTouchUpInside:(id)sender
@@ -285,20 +304,28 @@
     }];
 }
 -(void)viewDidLayoutSubviews{
+    
     [super viewDidLayoutSubviews];
     [_textMessageView addSubview:self.placeholderLabel];
 }
+
+
+/**************************************************************************************************************************************************************************/
+/***********************************************************************   sending text message start  ********************************************************************/
+/**************************************************************************************************************************************************************************/
 -(void)sendMessage:(TextMessage *)textMessasge
 {
+
+    __weak __typeof__(self) weakSelf = self;
     /**
      * send push notification message to receiver
-     **/
+     */
     [CometChat sendTextMessageWithMessage:textMessasge onSuccess:^(TextMessage * _Nonnull sent_message) {
 
         dispatch_async(dispatch_get_main_queue(), ^{
 
-            [self.view endEditing:YES];
-            [self showAlertWithTitle:@"SUCCESS" andMessage:@"Message sent Successfuly..!"];
+            [weakSelf.view endEditing:YES];
+            [weakSelf showAlertWithTitle:@"SUCCESS" andMessage:@"Message sent Successfuly..!"];
 
         });
 
@@ -309,13 +336,67 @@
     }];
     
 }
+
+/**************************************************************************************************************************************************************************/
+/*********************************************************************** sending text message end  ********************************************************************/
+/**************************************************************************************************************************************************************************/
+/**************************************************************************************************************************************************************************/
+/********************************************************************   sending custom message start  ********************************************************************/
+/**************************************************************************************************************************************************************************/
+-(void)sendCustomMessge:(id)sender
+{
+    NSString *reciverID = _receiverTextField.text;
+    
+    NSDictionary * message = [NSDictionary dictionaryWithObjectsAndKeys: @ "someRandomData", @ "someRandomKey", nil];
+    
+    CustomMessage * customMessage = [ [CustomMessage alloc] initWithReceiverUid: reciverID receiverType: ReceiverTypeUser customData: message ];
+    
+    switch (_segmentedControl.selectedSegmentIndex) {
+            
+        case 1:
+        {
+            customMessage = [ [CustomMessage alloc] initWithReceiverUid: reciverID receiverType: ReceiverTypeGroup customData: message ];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    // to display custom notification banner add this , "pushNotification" key not to change  //
+    NSDictionary * customNotificationDisplayText = [NSDictionary dictionaryWithObjectsAndKeys: @ "NOTIFICATION_BANNER_TEXT_HERE", @ "pushNotification", nil];
+    [customMessage setMetaData: customNotificationDisplayText];
+    
+    __weak __typeof__(self) weakSelf = self;
+    
+    [CometChat sendCustomMessageWithMessage:customMessage onSuccess:^(CustomMessage * _Nonnull sentMessage) {
+        
+        
+        NSLog(@ "sentMessage %@", [sentMessage stringValue]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf.view endEditing:YES];
+            [weakSelf showAlertWithTitle:@"SUCCESS" andMessage:@" Custom Message sent Successfuly..!"];
+            
+        });
+        
+    } onError:^(CometChatException * _Nullable error) {
+        
+        NSLog(@ "error sending custom message %@", [error errorDescription]);
+        
+    }];
+    
+}
+/**************************************************************************************************************************************************************************/
+/***********************************************************************   sending custom message end  ********************************************************************/
+/**************************************************************************************************************************************************************************/
+
 -(void)showAlertWithTitle:(NSString*)title andMessage:(NSString *)message
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:(UIAlertActionStyleDefault) handler:nil];
     [alert addAction:okAction];
-    
-    [self presentViewController:alert animated:YES completion:nil];
+    __weak __typeof__(self) weakSelf = self;
+    [weakSelf presentViewController:alert animated:YES completion:nil];
 }
 -(void)ViewWillSetUpNavigationBar
 {
@@ -326,20 +407,18 @@
 -(void)logout
 {
     /**
-     * log out from cometchat and unsubscribe from push notifications
-     **/
+     * log out from `CometChatPro` and unsubscribe from `FCM` push notifications
+     */
     [CometChat logoutOnSuccess:^(NSString * _Nonnull logoutSuccess) {
         
-        [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionTopicForLoggedInUser];
-        [[FIRMessaging messaging] unsubscribeFromTopic:subscriptionToipcForGroup];
+        [[FIRMessaging messaging] unsubscribeFromTopic:self->subscriptionTopicForLoggedInUser];
+        [[FIRMessaging messaging] unsubscribeFromTopic:self->subscriptionToipcForGroup];
         [self dismissViewControllerAnimated:YES completion:nil];
         
     } onError:^(CometChatException * _Nonnull error) {
         
-        NSLog(@"error %@",[error errorDescription]);
+        NSLog(@"error in login %@",[error errorDescription]);
         
     }];
-    
-    
 }
 @end

@@ -6,6 +6,5 @@ target 'SampleApp-PushNotifications' do
 # use_frameworks!
 
 # Pods for ios-objective-c-chat-app
-pod 'CometChatPro'
 pod 'Firebase/Messaging'
 end
